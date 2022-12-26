@@ -39,7 +39,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 Route::post('/categories',[CategoryController::class,'index']);
 
-});
 
 
 

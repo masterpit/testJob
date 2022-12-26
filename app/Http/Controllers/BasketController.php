@@ -30,12 +30,20 @@ class BasketController extends Controller
             'product_id' => 'required'
         ]);
         $product = Product::find($request->product_id);
-        $Basket = new Basket();
-        $Basket->session_id = session()->getId();
-        $Basket->product_id = $request->product_id;
-        $Basket->price = $product->price;
-        $Basket->email = $product->price;
-        $Basket->save();
+
+        if($Basket = Basket::where(['session_id' => session()->getId(),'product_id' => $product->product_id])->first()){
+            $Basket->quantity++;
+            $Basket->save();
+        }else{
+
+            $Basket = new Basket();
+            $Basket->session_id = session()->getId();
+            $Basket->product_id = $request->product_id;
+            $Basket->price = $product->price;
+            $Basket->email = $product->email;
+            $Basket->save();
+        }
+
         return $Basket;
     }
 
